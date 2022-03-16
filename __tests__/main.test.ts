@@ -12,7 +12,9 @@ test('test full YAML run', () => {
 })
 
 const runAction = (file: string, expectedContent: string) => {
-  process.env['INPUT_FILE'] = path.join(__dirname, file)
+  const fixedPath = path.join(__dirname, file)
+  console.log(`Running action with file ${fixedPath}`)
+  process.env['INPUT_FILE'] = fixedPath
   process.env['GITHUB_WORKSPACE'] = './'
 
   const np = process.execPath
