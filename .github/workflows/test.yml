@@ -25,7 +25,7 @@ jobs:
         with:
           file: __tests__/test-data/example1.json
       - name: Echo output result
-        run: echo ${{ steps.create_table.outputs.table }}
+        run: echo '${{ steps.create_table.outputs.table }}'
   test-with-yaml: 
     runs-on: ubuntu-latest
     steps:
@@ -36,4 +36,4 @@ jobs:
         with:
           file: __tests__/test-data/example1.yaml
       - name: Echo output result
-        run: echo ${{ steps.create_table.outputs.table }}
+        run: echo '${{ steps.create_table.outputs.table }}'
