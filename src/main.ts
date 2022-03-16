@@ -20,7 +20,7 @@ async function run(): Promise<void> {
       core.setFailed('No input file found')
     }
 
-    core.info(`Found list with ${list.length} rows`)
+    core.debug(`Found list with ${list.length} rows`)
 
     // Take first object in source list and use as table template object
     const templeteObject = list[0]
@@ -35,6 +35,8 @@ async function run(): Promise<void> {
 
     // Put them all together
     const content = `${header}\n${divider}\n${rows}`
+
+    core.debug(`Generated table:\n${content}`)
     core.setOutput('table', content)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)

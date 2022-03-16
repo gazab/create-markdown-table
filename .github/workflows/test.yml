@@ -20,18 +20,20 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Test action with JSON file
-        id: create-table
+        id: create_table
         uses: ./
         with:
           file: __tests__/test-data/example1.json
-      - run: echo ${{ steps.create_table.outputs.table }}
+      - name: Echo output result
+        run: echo ${{ steps.create_table.outputs.table }}
   test-with-yaml: 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Test action with YAML file
-        id: create-table
+        id: create_table
         uses: ./
         with:
           file: __tests__/test-data/example1.yaml
-      - run: echo ${{ steps.create_table.outputs.table }}
+      - name: Echo output result
+        run: echo ${{ steps.create_table.outputs.table }}

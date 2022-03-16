@@ -13,7 +13,7 @@ test('test full YAML run', () => {
 
 const runAction = (file: string, expectedContent: string) => {
   process.env['INPUT_FILE'] = file
-  process.env['GITHUB_WORKSPACE'] = process.env['GITHUB_WORKSPACE'] ?? __dirname
+  process.env['GITHUB_WORKSPACE'] = process.env['GITHUB_WORKSPACE'] ?? './'
 
   const np = process.execPath
   const ip = path.join(__dirname, '..', 'lib', 'main.js')
