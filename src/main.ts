@@ -1,16 +1,47 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import * as path from 'path'
+
+import * as table from './table'
+import * as data from './data'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_STEP_DEBUG` to true
+    // Parse parameters
+    const jsonFile = core.getInput('json-file')
+    const yamlFile = core.getInput('yaml-file')
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    const filePath = data.getFilePath(
+      process.env.GITHUB_WORKSPACE,
+      jsonFile,
+      yamlFile
+    )
+    core.info(`Reading file from ${filePath}`)
 
-    core.setOutput('time', new Date().toTimeString())
+    let list = []
+    if (jsonFile) {
+      list = data.readJsonFile(filePath)
+    } else if (yamlFile) {
+      list = data.readYamlFile(filePath)
+    } else {
+      core.setFailed('No input file found')
+    }
+
+    core.info(`Found list with ${list.length} rows`)
+
+    // Take first object in source list and use as table template object
+    const templeteObject = list[0]
+
+    // Generate header and corresponding divider
+    const header = table.generateHeader(templeteObject)
+    const divider = table.generateDivider(templeteObject)
+    core.debug('Built header: ' + header)
+
+    // Generate table rows
+    const rows = table.generateRows(list)
+
+    // Put them all together
+    const content = header + '\n' + divider + '\n' + rows
+    core.setOutput('table', content)
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message)
   }

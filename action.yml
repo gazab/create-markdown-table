@@ -1,11 +1,16 @@
-name: 'Your name here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'Create Markdown Table'
+description: 'Generate a markdown table from a JSON or YAML file'
+author: 'gazab'
 inputs:
-  milliseconds: # change this
-    required: true
-    description: 'input description here'
-    default: 'default value if applicable'
+  json-file:
+    description: 'path to the JSON file to create a table from'
+    required: false
+  yaml-file:
+    description: 'path to the YAML file to create a tablef from'
+    required: false
+outputs:
+  table:
+    description: 'The table in markdown format'
 runs:
   using: 'node16'
   main: 'dist/index.js'
