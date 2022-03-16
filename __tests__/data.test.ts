@@ -9,13 +9,13 @@ const fullExample1jsonPath = path.join(__dirname, example1jsonPath)
 const fullExample1yamlPath = path.join(__dirname, example1yamlPath)
 
 test('Test read JSON file', () => {
-  const result = data.readJsonFile(fullExample1jsonPath)
+  const result = data.readJsonFile(fullExample1jsonPath) as any[]
   expect(result.length).toBe(2)
-  expect(result[0].Name).toBe('JSON 1')
+  expect(result[0]['Name']).toBe('JSON 1')
 })
 
 test('Test read YAML file', () => {
-  const result = data.readYamlFile(fullExample1yamlPath)
+  const result = data.readYamlFile(fullExample1yamlPath) as any[]
   expect(result.length).toBe(2)
-  expect(result[0].Name).toBe('YAML 1')
+  expect(result[0]['Name']).toBe('YAML 1')
 })

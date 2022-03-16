@@ -78,16 +78,15 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
+const data = __importStar(__nccwpck_require__(383));
 const path = __importStar(__nccwpck_require__(622));
 const table = __importStar(__nccwpck_require__(362));
-const data = __importStar(__nccwpck_require__(383));
 function run() {
     var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // Parse parameters
             const fileInput = core.getInput('file');
-            const yamlFile = core.getInput('yaml-file');
             const filePath = path.join((_a = process.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : '', fileInput);
             core.info(`Reading file from ${filePath}`);
             let list = [];
@@ -106,11 +105,11 @@ function run() {
             // Generate header and corresponding divider
             const header = table.generateHeader(templeteObject);
             const divider = table.generateDivider(templeteObject);
-            core.debug('Built header: ' + header);
+            core.debug(`Built header: ${header}`);
             // Generate table rows
             const rows = table.generateRows(list);
             // Put them all together
-            const content = header + '\n' + divider + '\n' + rows;
+            const content = `${header}\n${divider}\n${rows}`;
             core.setOutput('table', content);
         }
         catch (error) {
@@ -132,7 +131,7 @@ run();
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.generateRows = exports.generateRow = exports.generateDivider = exports.createTemplate = exports.generateHeader = void 0;
 const generateHeader = (template) => {
-    return ('| ' + (0, exports.createTemplate)(template).join(' | ') + ' |').trim();
+    return `| ${(0, exports.createTemplate)(template).join(' | ')} |`.trim();
 };
 exports.generateHeader = generateHeader;
 const createTemplate = (templateObject) => {
@@ -143,15 +142,14 @@ const createTemplate = (templateObject) => {
 };
 exports.createTemplate = createTemplate;
 const generateDivider = (template) => {
-    return ('| ' +
-        (0, exports.createTemplate)(template)
-            .map(() => '--- | ')
-            .join('')
-            .trim());
+    return `| ${(0, exports.createTemplate)(template)
+        .map(() => '--- | ')
+        .join('')
+        .trim()}`;
 };
 exports.generateDivider = generateDivider;
 const generateRow = (row) => {
-    return '| ' + Object.values(row).join(' | ') + ' |' + '\n';
+    return `| ${Object.values(row).join(' | ')} |\n`;
 };
 exports.generateRow = generateRow;
 const generateRows = (rows) => {
