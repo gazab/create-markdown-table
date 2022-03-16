@@ -7,20 +7,16 @@ import * as data from './data'
 async function run(): Promise<void> {
   try {
     // Parse parameters
-    const jsonFile = core.getInput('json-file')
+    const fileInput = core.getInput('file')
     const yamlFile = core.getInput('yaml-file')
 
-    const filePath = data.getFilePath(
-      process.env.GITHUB_WORKSPACE,
-      jsonFile,
-      yamlFile
-    )
+    const filePath = path.join(process.env.GITHUB_WORKSPACE ?? '', fileInput)
     core.info(`Reading file from ${filePath}`)
 
     let list = []
-    if (jsonFile) {
+    if (filePath.endsWith('.json')) {
       list = data.readJsonFile(filePath)
-    } else if (yamlFile) {
+    } else if (filePath.endsWith('.yaml') || filePath.endsWith('.yml')) {
       list = data.readYamlFile(filePath)
     } else {
       core.setFailed('No input file found')

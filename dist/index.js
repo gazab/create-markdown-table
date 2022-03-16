@@ -25,14 +25,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getFilePath = exports.readYamlFile = exports.readJsonFile = void 0;
+exports.readYamlFile = exports.readJsonFile = void 0;
 const fs = __importStar(__nccwpck_require__(747));
 const yaml = __importStar(__nccwpck_require__(917));
-const path_1 = __importDefault(__nccwpck_require__(622));
 const readJsonFile = (filePath) => {
     const data = fs.readFileSync(filePath, 'utf8');
     return JSON.parse(data);
@@ -43,19 +39,6 @@ const readYamlFile = (filePath) => {
     return yaml.load(data);
 };
 exports.readYamlFile = readYamlFile;
-const getFilePath = (basePath, jsonFile, yamlFile) => {
-    basePath = basePath !== null && basePath !== void 0 ? basePath : '';
-    if (jsonFile) {
-        return path_1.default.join(basePath, jsonFile);
-    }
-    else if (yamlFile) {
-        return path_1.default.join(basePath, yamlFile);
-    }
-    else {
-        throw new Error('No input file name found');
-    }
-};
-exports.getFilePath = getFilePath;
 
 
 /***/ }),
@@ -95,21 +78,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(186));
+const path = __importStar(__nccwpck_require__(622));
 const table = __importStar(__nccwpck_require__(362));
 const data = __importStar(__nccwpck_require__(383));
 function run() {
+    var _a;
     return __awaiter(this, void 0, void 0, function* () {
         try {
             // Parse parameters
-            const jsonFile = core.getInput('json-file');
+            const fileInput = core.getInput('file');
             const yamlFile = core.getInput('yaml-file');
-            const filePath = data.getFilePath(process.env.GITHUB_WORKSPACE, jsonFile, yamlFile);
+            const filePath = path.join((_a = process.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : '', fileInput);
             core.info(`Reading file from ${filePath}`);
             let list = [];
-            if (jsonFile) {
+            if (filePath.endsWith('.json')) {
                 list = data.readJsonFile(filePath);
             }
-            else if (yamlFile) {
+            else if (filePath.endsWith('.yaml') || filePath.endsWith('.yml')) {
                 list = data.readYamlFile(filePath);
             }
             else {

@@ -21,4 +21,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: ./
         with:
-          milliseconds: 1000
+          file: __tests__/test-data/example1.json
+      - uses: ./
+        with:
+          file: __tests__/test-data/example1.yaml
