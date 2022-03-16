@@ -2,12 +2,9 @@ name: 'Create Markdown Table'
 description: 'Generate a markdown table from a JSON or YAML file'
 author: 'gazab'
 inputs:
-  json-file:
-    description: 'path to the JSON file to create a table from'
-    required: false
-  yaml-file:
-    description: 'path to the YAML file to create a tablef from'
-    required: false
+  file:
+    description: 'path to the JSON/YAML file to create a table from'
+    required: true
 outputs:
   table:
     description: 'The table in markdown format'
