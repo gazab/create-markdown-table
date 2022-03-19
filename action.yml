@@ -8,6 +8,9 @@ inputs:
   file:
     description: 'path to the JSON/YAML file to create a table from'
     required: true
+  columns:
+    description: 'List of columns and their order to include in the table. Use JSON format.'
+    required: false
 outputs:
   table:
     description: 'The table in markdown format'

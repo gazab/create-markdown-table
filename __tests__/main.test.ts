@@ -11,6 +11,12 @@ test('test full YAML run', () => {
   runAction('./test-data/example1.yaml', 'YAML 1')
 })
 
+test('test full run with columns parameter', () => {
+  process.env['INPUT_COLUMNS'] = '["Url", "Language"]'
+
+  runAction('./test-data/example1.json', 'Java')
+})
+
 const runAction = (file: string, expectedContent: string) => {
   process.env['INPUT_FILE'] = file
   process.env['GITHUB_WORKSPACE'] = __dirname

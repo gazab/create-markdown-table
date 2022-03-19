@@ -15,7 +15,7 @@ jobs:
           npm install
       - run: |
           npm run all
-  test-with-json: # make sure the action works on a clean machine without building
+  test-with-json:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -35,5 +35,17 @@ jobs:
         uses: ./
         with:
           file: __tests__/test-data/example1.yaml
+      - name: Echo output result
+        run: echo '${{ steps.create_table.outputs.table }}'
+  test-columns-parameters:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test action with JSON file
+        id: create_table
+        uses: ./
+        with:
+          file: __tests__/test-data/example1.json
+          columns: '[ "Team", "Url" ]'
       - name: Echo output result
         run: echo '${{ steps.create_table.outputs.table }}'
