@@ -37,7 +37,7 @@ jobs:
           file: __tests__/test-data/example1.yaml
       - name: Echo output result
         run: echo '${{ steps.create_table.outputs.table }}'
-  test-columns-parameters:
+  test-columns-parameter:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
