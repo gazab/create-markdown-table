@@ -2,8 +2,8 @@ name: 'Create Markdown Table'
 description: 'Generate a markdown table from a JSON or YAML file'
 author: 'gazab'
 branding:
-  icon: 'align-justify'
-  color: 'gray-dark'
+  icon: 'menu'
+  color: 'purple'
 inputs:
   file:
     description: 'path to the JSON/YAML file to create a table from'
