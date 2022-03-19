@@ -8,6 +8,13 @@ async function run(): Promise<void> {
     // Parse parameters
     const fileInput = core.getInput('file')
     const columnsInput = core.getInput('columns')
+    const capitalizeInput = core.getInput('capitalize')
+
+    let capitalize = true
+    if (capitalizeInput) {
+      capitalize = JSON.parse(capitalizeInput)
+      core.debug(`Capitalize set to ${capitalize}`)
+    }
 
     const filePath = path.join(process.env.GITHUB_WORKSPACE ?? '', fileInput)
     core.info(`Reading file from ${filePath}`)
@@ -31,7 +38,7 @@ async function run(): Promise<void> {
     }
 
     // Generate header and corresponding divider
-    const header = table.generateHeader(templeteObject)
+    const header = table.generateHeader(templeteObject, capitalize)
     const divider = table.generateDivider(templeteObject)
     core.debug(`Built header: ${header}`)
 

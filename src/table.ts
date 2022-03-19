@@ -3,8 +3,10 @@ interface Row {
   [key: string]: any
 }
 
-export const generateHeader = (template: Object): string => {
-  return `| ${getColumnsFromTemplateObject(template).join(' | ')} |`.trim()
+export const generateHeader = (template: Object, capitalize = true): string => {
+  return `| ${getColumnsFromTemplateObject(template)
+    .map(column => (capitalize ? capitalizeString(column) : column))
+    .join(' | ')} |`.trim()
 }
 
 export const getColumnsFromTemplateObject = (
@@ -31,4 +33,8 @@ export const generateRows = (rows: Row[], templateObject: Object): string => {
   return rows
     .map(row => generateRow(row, getColumnsFromTemplateObject(templateObject)))
     .join('')
+}
+
+function capitalizeString(str: string): string {
+  return str.charAt(0).toUpperCase() + str.slice(1)
 }

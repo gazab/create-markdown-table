@@ -19,6 +19,19 @@ test('Test generate header from object', () => {
   expect(result).toEqual(headerResult)
 })
 
+test('Test generate header should capitalize', () => {
+  const headerList = ['column1', 'column2']
+  const result = table.generateHeader(headerList)
+  expect(result).toEqual(headerResult)
+})
+
+test('Test generate header should not capitalize with capitalize = false', () => {
+  const headerList = ['column1', 'column2']
+  const expected = '| column1 | column2 |'
+  const result = table.generateHeader(headerList, false)
+  expect(result).toEqual(expected)
+})
+
 test('Test generate divider from object', () => {
   const result = table.generateDivider(headerObject)
   expect(result).toEqual(dividerResult)
