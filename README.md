@@ -33,31 +33,10 @@ steps:
 #### `file`
 **(Required)** Path to the JSON/YAML file to convert to a Markdown table
 
+#### `columns`
+JSON formatted list of columns and their order you want the table to include
+
 ## Outputs
 
 #### `table`
 The created Markdown table
-## Development
-
-Install the dependencies  
-```bash
-$ npm install
-```
-
-Build the typescript and package it for distribution
-```bash
-$ npm run build && npm run package
-```
-
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
-
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-
-...
-```
-
