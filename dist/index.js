@@ -95,6 +95,7 @@ function run() {
         try {
             // Parse parameters
             const fileInput = core.getInput('file');
+            const columnsInput = core.getInput('columns');
             const filePath = path.join((_a = process.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : '', fileInput);
             core.info(`Reading file from ${filePath}`);
             let list = [];
@@ -109,13 +110,17 @@ function run() {
             }
             core.debug(`Found list with ${list.length} rows`);
             // Take first object in source list and use as table template object
-            const templeteObject = list[0];
+            let templeteObject = list[0];
+            if (columnsInput) {
+                core.debug(`Using columns parameter '${columnsInput}'`);
+                templeteObject = JSON.parse(columnsInput);
+            }
             // Generate header and corresponding divider
             const header = table.generateHeader(templeteObject);
             const divider = table.generateDivider(templeteObject);
             core.debug(`Built header: ${header}`);
             // Generate table rows
-            const rows = table.generateRows(list);
+            const rows = table.generateRows(list, templeteObject);
             // Put them all together
             const content = `${header}\n${divider}\n${rows}`;
             core.debug(`Generated table:\n${content}`);
@@ -138,31 +143,33 @@ run();
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.generateRows = exports.generateRow = exports.generateDivider = exports.createTemplate = exports.generateHeader = void 0;
+exports.generateRows = exports.generateRow = exports.generateDivider = exports.getColumnsFromTemplateObject = exports.generateHeader = void 0;
 const generateHeader = (template) => {
-    return `| ${(0, exports.createTemplate)(template).join(' | ')} |`.trim();
+    return `| ${(0, exports.getColumnsFromTemplateObject)(template).join(' | ')} |`.trim();
 };
 exports.generateHeader = generateHeader;
-const createTemplate = (templateObject) => {
+const getColumnsFromTemplateObject = (templateObject) => {
     if (!Array.isArray(templateObject)) {
         return Object.keys(templateObject);
     }
     return templateObject;
 };
-exports.createTemplate = createTemplate;
+exports.getColumnsFromTemplateObject = getColumnsFromTemplateObject;
 const generateDivider = (template) => {
-    return `| ${(0, exports.createTemplate)(template)
+    return `| ${(0, exports.getColumnsFromTemplateObject)(template)
         .map(() => '--- | ')
         .join('')
         .trim()}`;
 };
 exports.generateDivider = generateDivider;
-const generateRow = (row) => {
-    return `| ${Object.values(row).join(' | ')} |\n`;
+const generateRow = (row, columns) => {
+    return `| ${columns.map(column => row[column]).join(' | ')} |\n`;
 };
 exports.generateRow = generateRow;
-const generateRows = (rows) => {
-    return rows.map(row => (0, exports.generateRow)(row)).join('');
+const generateRows = (rows, templateObject) => {
+    return rows
+        .map(row => (0, exports.generateRow)(row, (0, exports.getColumnsFromTemplateObject)(templateObject)))
+        .join('');
 };
 exports.generateRows = generateRows;
 

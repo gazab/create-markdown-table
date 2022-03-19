@@ -16,6 +16,18 @@ steps:
   - run: echo ${{ steps.create_table.outputs.table }}
 
 ```
+
+With specific columns specified
+```yaml
+steps:
+  - uses: gazab/create-markdown-table@v1
+    id: create_table
+    with:
+      file: ./table-data.json
+      columns: '[ "Id", "Name" ]'
+  - run: echo ${{ steps.create_table.outputs.table }}
+
+```
 ## Inputs
 
 #### `file`

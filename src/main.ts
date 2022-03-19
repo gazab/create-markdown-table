@@ -7,6 +7,7 @@ async function run(): Promise<void> {
   try {
     // Parse parameters
     const fileInput = core.getInput('file')
+    const columnsInput = core.getInput('columns')
 
     const filePath = path.join(process.env.GITHUB_WORKSPACE ?? '', fileInput)
     core.info(`Reading file from ${filePath}`)
@@ -23,7 +24,11 @@ async function run(): Promise<void> {
     core.debug(`Found list with ${list.length} rows`)
 
     // Take first object in source list and use as table template object
-    const templeteObject = list[0]
+    let templeteObject = list[0]
+    if (columnsInput) {
+      core.debug(`Using columns parameter '${columnsInput}'`)
+      templeteObject = JSON.parse(columnsInput)
+    }
 
     // Generate header and corresponding divider
     const header = table.generateHeader(templeteObject)
@@ -31,7 +36,7 @@ async function run(): Promise<void> {
     core.debug(`Built header: ${header}`)
 
     // Generate table rows
-    const rows = table.generateRows(list)
+    const rows = table.generateRows(list, templeteObject)
 
     // Put them all together
     const content = `${header}\n${divider}\n${rows}`

@@ -2,6 +2,7 @@ import {expect, test} from '@jest/globals'
 
 import * as table from '../src/table'
 
+const headerListAsString = '["Column1", "Column2"]'
 const headerList = ['Column1', 'Column2']
 const headerObject = {Column1: 'value 1', Column2: 'value 2'}
 const headerResult = '| Column1 | Column2 |'
@@ -24,6 +25,28 @@ test('Test generate divider from object', () => {
 })
 
 test('Test generate rows from object list', () => {
-  const result = table.generateRows([headerObject, headerObject])
+  const result = table.generateRows([headerObject, headerObject], headerObject)
+  expect(result).toEqual(rowResult)
+})
+
+test('Test generate template object from string', () => {
+  const templateObject = JSON.parse(headerListAsString)
+  const result = table.generateHeader(templateObject)
+  expect(result).toEqual(headerResult)
+})
+
+test('Test generate rows with reduced columns', () => {
+  const templateObject = ['Column1']
+  const rowResult = '| value 1 |\n'
+
+  const result = table.generateRows([headerObject], templateObject)
+  expect(result).toEqual(rowResult)
+})
+
+test('Test generate rows with different column order', () => {
+  const templateObject = ['Column2', 'Column1']
+  const rowResult = '| value 2 | value 1 |\n'
+
+  const result = table.generateRows([headerObject], templateObject)
   expect(result).toEqual(rowResult)
 })
