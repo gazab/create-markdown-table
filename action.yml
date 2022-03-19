@@ -11,6 +11,10 @@ inputs:
   columns:
     description: 'List of columns and their order to include in the table. Use JSON format.'
     required: false
+  capitalize:
+    description: 'Capitalize the first letter of each column name in the header. Default: true'
+    default: 'true'
+    required: false
 outputs:
   table:
     description: 'The table in markdown format'

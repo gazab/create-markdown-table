@@ -36,6 +36,9 @@ steps:
 #### `columns`
 JSON formatted list of columns and their order you want the table to include
 
+#### `capitalize`
+Capitalize the first letter of each column
+
 ## Outputs
 
 #### `table`

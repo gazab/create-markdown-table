@@ -41,11 +41,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Test action with JSON file
+      - name: Test action with columns parameter set
         id: create_table
         uses: ./
         with:
           file: __tests__/test-data/example1.json
           columns: '[ "Team", "Url" ]'
+      - name: Echo output result
+        run: echo '${{ steps.create_table.outputs.table }}'
+  test-capitalize-parameter:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test action with capitalize parameter set
+        id: create_table
+        uses: ./
+        with:
+          file: __tests__/test-data/example2.json
+          capitalize: 'false'
       - name: Echo output result
         run: echo '${{ steps.create_table.outputs.table }}'

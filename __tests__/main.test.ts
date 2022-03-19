@@ -4,21 +4,35 @@ import * as path from 'path'
 import {expect, test} from '@jest/globals'
 
 test('test full JSON run', () => {
-  runAction('./test-data/example1.json', 'JSON 1')
+  runAction('JSON 1', './test-data/example1.json', '', '')
 })
 
 test('test full YAML run', () => {
-  runAction('./test-data/example1.yaml', 'YAML 1')
+  runAction('YAML 1', './test-data/example1.yaml', '', '')
 })
 
 test('test full run with columns parameter', () => {
-  process.env['INPUT_COLUMNS'] = '["Url", "Language"]'
-
-  runAction('./test-data/example1.json', 'Java')
+  runAction('Java', './test-data/example1.json', '["Url", "Language"]', '')
 })
 
-const runAction = (file: string, expectedContent: string) => {
+test('test full run with capitalize parameter = false', () => {
+  runAction('field', './test-data/example2.json', '', 'false')
+})
+
+test('test full run with capitalize parameter undefined', () => {
+  runAction('Field', './test-data/example2.json', '', '')
+})
+
+const runAction = (
+  expectedContent: string,
+  file: string,
+  columns: string,
+  capitalize: string
+) => {
   process.env['INPUT_FILE'] = file
+  process.env['INPUT_COLUMNS'] = columns
+  process.env['INPUT_CAPITALIZE'] = capitalize
+
   process.env['GITHUB_WORKSPACE'] = __dirname
 
   const np = process.execPath

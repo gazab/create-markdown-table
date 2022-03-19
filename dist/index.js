@@ -96,6 +96,12 @@ function run() {
             // Parse parameters
             const fileInput = core.getInput('file');
             const columnsInput = core.getInput('columns');
+            const capitalizeInput = core.getInput('capitalize');
+            let capitalize = true;
+            if (capitalizeInput) {
+                capitalize = JSON.parse(capitalizeInput);
+                core.debug(`Capitalize set to ${capitalize}`);
+            }
             const filePath = path.join((_a = process.env.GITHUB_WORKSPACE) !== null && _a !== void 0 ? _a : '', fileInput);
             core.info(`Reading file from ${filePath}`);
             let list = [];
@@ -116,7 +122,7 @@ function run() {
                 templeteObject = JSON.parse(columnsInput);
             }
             // Generate header and corresponding divider
-            const header = table.generateHeader(templeteObject);
+            const header = table.generateHeader(templeteObject, capitalize);
             const divider = table.generateDivider(templeteObject);
             core.debug(`Built header: ${header}`);
             // Generate table rows
@@ -144,8 +150,10 @@ run();
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.generateRows = exports.generateRow = exports.generateDivider = exports.getColumnsFromTemplateObject = exports.generateHeader = void 0;
-const generateHeader = (template) => {
-    return `| ${(0, exports.getColumnsFromTemplateObject)(template).join(' | ')} |`.trim();
+const generateHeader = (template, capitalize = true) => {
+    return `| ${(0, exports.getColumnsFromTemplateObject)(template)
+        .map(column => (capitalize ? capitalizeString(column) : column))
+        .join(' | ')} |`.trim();
 };
 exports.generateHeader = generateHeader;
 const getColumnsFromTemplateObject = (templateObject) => {
@@ -172,6 +180,9 @@ const generateRows = (rows, templateObject) => {
         .join('');
 };
 exports.generateRows = generateRows;
+function capitalizeString(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
 
 
 /***/ }),
