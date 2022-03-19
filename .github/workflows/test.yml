@@ -15,10 +15,25 @@ jobs:
           npm install
       - run: |
           npm run all
-  test: # make sure the action works on a clean machine without building
+  test-with-json: # make sure the action works on a clean machine without building
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: ./
+      - name: Test action with JSON file
+        id: create_table
+        uses: ./
         with:
-          milliseconds: 1000
+          file: __tests__/test-data/example1.json
+      - name: Echo output result
+        run: echo '${{ steps.create_table.outputs.table }}'
+  test-with-yaml: 
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test action with YAML file
+        id: create_table
+        uses: ./
+        with:
+          file: __tests__/test-data/example1.yaml
+      - name: Echo output result
+        run: echo '${{ steps.create_table.outputs.table }}'
