@@ -34,7 +34,8 @@ steps:
 **(Required)** Path to the JSON/YAML file to convert to a Markdown table
 
 #### `columns`
-JSON formatted list of columns and their order you want the table to include
+JSON formatted list of columns and their order you want the table to include. 
+Default: All properties of the first object in the input file.
 
 #### `capitalize`
 Capitalize the first letter of each column name in the header. Default: `true`.
