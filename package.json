@@ -1,8 +1,8 @@
 {
-  "name": "typescript-action",
-  "version": "0.0.0",
+  "name": "create-markdown-table",
+  "version": "1.0.0",
   "private": true,
-  "description": "TypeScript template action",
+  "description": "A GitHub Action to generate a markdown table from a JSON or YAML file",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
@@ -15,14 +15,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/gazab/create-markdown-table.git"
   },
   "keywords": [
     "actions",
-    "node",
-    "setup"
+    "github",
+    "markdown",
+    "json",
+    "yaml"
   ],
-  "author": "",
+  "author": "Gustav Tonér",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.6.0",
