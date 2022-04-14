@@ -1,0 +1,22 @@
+name: Update major version tag
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+  
+env:
+  TAG_NAME: v1
+
+jobs:
+  update-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: '0'
+      - name: Update tag and push it
+        run: |
+          git tag -fa ${{ env.TAG_NAME }} -m "Update ${{ env.TAG_NAME }} tag"
+          git push origin ${{ env.TAG_NAME }} --force
