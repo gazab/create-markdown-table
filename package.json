@@ -27,7 +27,7 @@
   "author": "Gustav Tonér",
   "license": "MIT",
   "dependencies": {
-    "@actions/core": "^1.6.0",
+    "@actions/core": "^1.8.1",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
