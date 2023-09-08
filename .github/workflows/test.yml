@@ -10,7 +10,7 @@ jobs:
   build: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: |
           npm install
       - run: |
@@ -18,7 +18,7 @@ jobs:
   test-with-json:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Test action with JSON file
         id: create_table
         uses: ./
@@ -29,7 +29,7 @@ jobs:
   test-with-yaml: 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Test action with YAML file
         id: create_table
         uses: ./
@@ -40,7 +40,7 @@ jobs:
   test-columns-parameter:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Test action with columns parameter set
         id: create_table
         uses: ./
@@ -52,7 +52,7 @@ jobs:
   test-capitalize-parameter:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Test action with capitalize parameter set
         id: create_table
         uses: ./
